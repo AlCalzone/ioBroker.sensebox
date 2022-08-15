@@ -1,0 +1,72 @@
+{
+	"common": {
+		"name": "sensebox",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "senseBox",
+		"titleLang": {
+			"en": "senseBox",
+			"de": "SinnBox",
+			"ru": "смыслбокс",
+			"pt": "senseBox",
+			"nl": "senseBox",
+			"fr": "SenseBox",
+			"it": "senseBox",
+			"es": "sentidoBox",
+			"pl": "senseBox",
+			"zh-cn": "感知盒"
+		},
+		"desc": {
+			"en": "Import sensor data from openSenseMap.org",
+			"de": "Importieren Sie Sensordaten von openSenseMap.org",
+			"ru": "Импорт данных датчиков с openSenseMap.org",
+			"pt": "Importar dados do sensor do openSenseMap.org",
+			"nl": "Sensorgegevens importeren van openSenseMap.org",
+			"fr": "Importer des données de capteur depuis openSenseMap.org",
+			"it": "Importa i dati del sensore da openSenseMap.org",
+			"es": "Importar datos de sensores de openSenseMap.org",
+			"pl": "Importuj dane z czujników z openSenseMap.org",
+			"zh-cn": "从 openSenseMap.org 导入传感器数据"
+		},
+		"authors": ["AlCalzone <d.griesel@gmx.net>"],
+		"keywords": ["senseBox", "openSenseMap", "Luftdaten", "Sensor"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "sensebox.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.sensebox/master/admin/sensebox.png",
+		"readme": "https://github.com/AlCalzone/ioBroker.sensebox/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "weather",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
