@@ -31,7 +31,7 @@ class Sensebox extends utils.Adapter {
 	}
 
 	private async query(): Promise<void> {
-		if (this.nextQuery) this.clearTimeout(this.nextQuery);
+		this.nextQuery = undefined;
 
 		this.log.debug(`Querying ${this.config.boxes.length} boxes...`);
 		for (const boxId of this.config.boxes) {
