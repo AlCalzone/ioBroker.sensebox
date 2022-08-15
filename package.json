@@ -1,6 +1,6 @@
 {
   "name": "iobroker.sensebox",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1",
   "description": "Import sensor data from openSenseMap.org",
   "author": {
     "name": "AlCalzone",
