@@ -1,5 +1,5 @@
 {
-	"sensebox adapter settings": "sensebox的适配器设置",
-	"option1": "选项1",
-	"option2": "选项2"
+    "query interval": "查询间隔（秒）",
+    "sensebox IDs": "senseBox 的 ID，以逗号分隔",
+    "sensebox adapter settings": "sensebox的适配器设置"
 }

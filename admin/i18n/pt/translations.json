@@ -1,5 +1,5 @@
 {
-	"sensebox adapter settings": "Configurações do adaptador para sensebox",
-	"option1": "Opção 1",
-	"option2": "opção 2"
+    "query interval": "Intervalo de consulta (segundos)",
+    "sensebox IDs": "Os IDs de seus senseBoxes, separados por vírgulas",
+    "sensebox adapter settings": "Configurações do adaptador para sensebox"
 }

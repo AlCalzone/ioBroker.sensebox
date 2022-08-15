@@ -1,5 +1,5 @@
 {
-	"sensebox adapter settings": "Настройки адаптера для sensebox",
-	"option1": "Опция 1",
-	"option2": "вариант 2"
+    "query interval": "Интервал запроса (секунды)",
+    "sensebox IDs": "Идентификаторы ваших senseBox, разделенные запятыми",
+    "sensebox adapter settings": "Настройки адаптера для sensebox"
 }

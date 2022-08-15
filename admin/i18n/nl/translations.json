@@ -1,5 +1,5 @@
 {
-	"sensebox adapter settings": "Adapterinstellingen voor sensebox",
-	"option1": "Optie 1",
-	"option2": "Optie 2"
+    "query interval": "Query-interval (seconden)",
+    "sensebox IDs": "De ID's van uw senseBoxen, gescheiden door komma's",
+    "sensebox adapter settings": "Adapterinstellingen voor sensebox"
 }

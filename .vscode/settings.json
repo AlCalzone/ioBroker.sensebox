@@ -3,6 +3,12 @@
 	"eslint.enable": true,
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact"
+	],
 	"[typescript]": {
 		"editor.codeActionsOnSave": {
 			"source.organizeImports": true
@@ -10,7 +16,9 @@
 	},
 	"json.schemas": [
 		{
-			"fileMatch": ["io-package.json"],
+			"fileMatch": [
+				"io-package.json"
+			],
 			"url": "https://json.schemastore.org/io-package"
 		}
 	]

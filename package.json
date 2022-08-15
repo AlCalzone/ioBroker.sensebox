@@ -1,6 +1,6 @@
 {
   "name": "iobroker.sensebox",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.0",
   "description": "Import sensor data from openSenseMap.org",
   "author": {
     "name": "AlCalzone",
@@ -19,7 +19,9 @@
     "url": "https://github.com/AlCalzone/ioBroker.sensebox"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0"
+    "@iobroker/adapter-core": "^2.6.0",
+    "alcalzone-shared": "^4.0.1",
+    "axios": "^0.27.2"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.2",

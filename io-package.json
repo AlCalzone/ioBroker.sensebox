@@ -1,9 +1,9 @@
 {
 	"common": {
 		"name": "sensebox",
-		"version": "0.0.1",
+		"version": "0.0.1-alpha.0",
 		"news": {
-			"0.0.1": {
+			"0.0.1-alpha.0": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
 				"ru": "Начальная версия",
@@ -19,15 +19,15 @@
 		"title": "senseBox",
 		"titleLang": {
 			"en": "senseBox",
-			"de": "SinnBox",
-			"ru": "смыслбокс",
+			"de": "senseBox",
+			"ru": "senseBox",
 			"pt": "senseBox",
 			"nl": "senseBox",
 			"fr": "SenseBox",
 			"it": "senseBox",
-			"es": "sentidoBox",
+			"es": "senseBox",
 			"pl": "senseBox",
-			"zh-cn": "感知盒"
+			"zh-cn": "senseBox"
 		},
 		"desc": {
 			"en": "Import sensor data from openSenseMap.org",
@@ -46,9 +46,9 @@
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",
-		"icon": "sensebox.png",
+		"icon": "sensebox.svg",
 		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.sensebox/master/admin/sensebox.png",
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.sensebox/master/admin/sensebox.svg?sanitize=true",
 		"readme": "https://github.com/AlCalzone/ioBroker.sensebox/blob/master/README.md",
 		"loglevel": "info",
 		"mode": "daemon",
@@ -64,8 +64,8 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"queryInterval": 60000,
+		"boxes": []
 	},
 	"objects": [],
 	"instanceObjects": []

@@ -2,12 +2,11 @@
  * Created with @iobroker/create-adapter v2.1.1
  */
 
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
+import { isObject } from "alcalzone-shared/typeguards";
 
-// Load your modules here, e.g.:
-// import * as fs from "fs";
+import axios from "axios";
+import { computeDeviceId, computeSensorId, getStateRole } from "./lib/utils";
 
 class Sensebox extends utils.Adapter {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -16,67 +15,97 @@ class Sensebox extends utils.Adapter {
 			name: "sensebox",
 		});
 		this.on("ready", this.onReady.bind(this));
-		this.on("stateChange", this.onStateChange.bind(this));
+		// this.on("stateChange", this.onStateChange.bind(this));
 		// this.on("objectChange", this.onObjectChange.bind(this));
 		// this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
 
+	private nextQuery: ioBroker.Timeout | undefined;
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	private async onReady(): Promise<void> {
-		// Initialize your adapter here
+		this.nextQuery = this.setTimeout(() => this.query(), 0);
+	}
 
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
-		this.log.info("config option1: " + this.config.option1);
-		this.log.info("config option2: " + this.config.option2);
+	private async query(): Promise<void> {
+		if (this.nextQuery) this.clearTimeout(this.nextQuery);
 
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		await this.setObjectNotExistsAsync("testVariable", {
-			type: "state",
+		this.log.debug(`Querying ${this.config.boxes.length} boxes...`);
+		for (const boxId of this.config.boxes) {
+			await this.queryBox(boxId);
+		}
+
+		this.nextQuery = this.setTimeout(
+			() => this.query(),
+			// Change the interval randomly between 85% and 115% of the configured time
+			// to avoid hitting the API too regularly
+			this.config.queryInterval * (0.85 + 0.3 * Math.random()),
+		);
+	}
+
+	private async queryBox(boxId: string): Promise<void> {
+		const url = `https://api.opensensemap.org/boxes/${boxId}`;
+		let box: SenseBox;
+		try {
+			this.log.debug(`Querying box ${boxId}...`);
+			({ data: box } = await axios.get<SenseBox>(url, {
+				timeout: 60000,
+				headers: { "User-Agent": `ioBroker.sensebox ${this.version}` },
+			}));
+			this.log.debug(`success!`);
+		} catch (e: any) {
+			let message = `Error querying box ${boxId}. ${e.message}`;
+			if (
+				e.response &&
+				isObject(e.response.data) &&
+				typeof e.response.data.message === "string"
+			) {
+				message += `: ${e.response.data.message}`;
+			}
+			this.log.error(message);
+			return;
+		}
+
+		// Create an object for each box
+		const deviceId = computeDeviceId(this, boxId);
+		await this.setObjectNotExistsAsync(deviceId, {
+			type: "device",
 			common: {
-				name: "testVariable",
-				type: "boolean",
-				role: "indicator",
-				read: true,
-				write: true,
+				name: box.name,
 			},
-			native: {},
+			native: {
+				exposure: box.exposure,
+				model: box.model,
+			},
 		});
 
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates("testVariable");
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates("lights.*");
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates("*");
+		for (const sensor of box.sensors) {
+			const stateId = computeSensorId(this, boxId, sensor);
+			await this.setObjectNotExistsAsync(stateId, {
+				type: "state",
+				common: {
+					type: "number",
+					role: getStateRole(sensor),
+					read: true,
+					write: false,
+					unit: sensor.unit,
+					name: sensor.title,
+				},
+				native: {
+					id: sensor._id,
+					type: sensor.sensorType,
+				},
+			});
 
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync("testVariable", true);
-
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync("testVariable", { val: true, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
-
-		// examples for the checkPassword/checkGroup functions
-		let result = await this.checkPasswordAsync("admin", "iobroker");
-		this.log.info("check user admin pw iobroker: " + result);
-
-		result = await this.checkGroupAsync("admin", "admin");
-		this.log.info("check group user admin group admin: " + result);
+			await this.setStateAsync(stateId, {
+				val: parseFloat(sensor.lastMeasurement.value),
+				ack: true,
+				ts: new Date(sensor.lastMeasurement.createdAt).getTime(),
+			});
+		}
 	}
 
 	/**
@@ -84,12 +113,7 @@ class Sensebox extends utils.Adapter {
 	 */
 	private onUnload(callback: () => void): void {
 		try {
-			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
-
+			if (this.nextQuery) this.clearTimeout(this.nextQuery);
 			callback();
 		} catch (e) {
 			callback();
@@ -111,18 +135,23 @@ class Sensebox extends utils.Adapter {
 	// 	}
 	// }
 
-	/**
-	 * Is called if a subscribed state changes
-	 */
-	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-		} else {
-			// The state was deleted
-			this.log.info(`state ${id} deleted`);
-		}
-	}
+	// /**
+	//  * Is called if a subscribed state changes
+	//  */
+	// private onStateChange(
+	// 	id: string,
+	// 	state: ioBroker.State | null | undefined,
+	// ): void {
+	// 	if (state) {
+	// 		// The state was changed
+	// 		this.log.info(
+	// 			`state ${id} changed: ${state.val} (ack = ${state.ack})`,
+	// 		);
+	// 	} else {
+	// 		// The state was deleted
+	// 		this.log.info(`state ${id} deleted`);
+	// 	}
+	// }
 
 	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
 	// /**
@@ -144,7 +173,8 @@ class Sensebox extends utils.Adapter {
 
 if (require.main !== module) {
 	// Export the constructor in compact mode
-	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Sensebox(options);
+	module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
+		new Sensebox(options);
 } else {
 	// otherwise start the instance directly
 	(() => new Sensebox())();
