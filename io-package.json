@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "sensebox",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
+			"0.0.2": {
+				"en": "fixed warning about elapsed timers on older js-controller versions\nreduced loglevel to `warn` for server errors (HTTP code 5xx)",
+				"de": "Warnung über abgelaufene Timer bei älteren js-Controller-Versionen behoben\nLoglevel für Serverfehler (HTTP-Code 5xx) auf `warn` reduziert",
+				"ru": "фиксированное предупреждение об отложенных таймерах на старых версиях js-controller\nуменьшенный уровень логов для предупреждения ошибок сервера (HTTP code 5xx)",
+				"pt": "aviso fixo sobre temporizadores decorridos em versões mais antigas do js-controller\nnível de log reduzido para alertar para erros de servidor (código HTTP 5xx)",
+				"nl": "vertaling:\nverminderde logel om te waarschuwen voor serverfouten (HTP code 5x)",
+				"fr": "avertissement fixe sur les minuteurs écoulés sur les versions antérieures de js-controller\nloglevel réduit pour prévenir les erreurs de serveur (code HTML 5xx)",
+				"it": "avvertenza fissa sui timer esatti sulle versioni js-controller più vecchie\nridotto livello di log per avvertire gli errori del server (codice HTTP 5xx)",
+				"es": "advertencia fija sobre los temporizadores pasados en versiones js-controller más antiguas\nmenor nivel de registro para advertir por errores del servidor (HTTP code 5xx)",
+				"pl": "stwierdziła ostrzeżenie o załatwionym czaszce na starszych wersjach js\nzmniejszenie poziomu logowania w celu ostrzeżenia błędów serwerowych (kod HTTP 5xx)",
+				"zh-cn": "对旧的丛书控制字版本长短时间的固定警告\n服务器失误的逻辑减少(HTTP代码5xx)"
+			},
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -41,15 +53,8 @@
 			"pl": "Importuj dane z czujników z openSenseMap.org",
 			"zh-cn": "从 openSenseMap.org 导入传感器数据"
 		},
-		"authors": [
-			"AlCalzone <d.griesel@gmx.net>"
-		],
-		"keywords": [
-			"senseBox",
-			"openSenseMap",
-			"Luftdaten",
-			"Sensor"
-		],
+		"authors": ["AlCalzone <d.griesel@gmx.net>"],
+		"keywords": ["senseBox", "openSenseMap", "Luftdaten", "Sensor"],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",
