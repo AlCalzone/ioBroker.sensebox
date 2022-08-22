@@ -21,9 +21,15 @@ Import sensor data from openSenseMap.org
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   fixed warning about elapsed timers on older js-controller versions
+-   reduced loglevel to `warn` for server errors (HTTP code 5xx)
+
 ### 0.0.1 (2022-08-15)
 
--   (AlCalzone) initial release
+-   initial release
 
 ## License
 
