@@ -56,10 +56,16 @@ class Sensebox extends utils.Adapter {
       this.log.debug(`success!`);
     } catch (e) {
       let message = `Error querying box ${boxId}. ${e.message}`;
-      if (e.response && (0, import_typeguards.isObject)(e.response.data) && typeof e.response.data.message === "string") {
-        message += `: ${e.response.data.message}`;
+      let level = "error";
+      if (import_axios.default.isAxiosError(e) && e.response) {
+        if ((0, import_typeguards.isObject)(e.response.data) && typeof e.response.data.message === "string") {
+          message += `: ${e.response.data.message}`;
+        }
+        if (e.response.status >= 500) {
+          level = "warn";
+        }
       }
-      this.log.error(message);
+      this.log[level](message);
       return;
     }
     const deviceId = (0, import_utils.computeDeviceId)(this, boxId);
@@ -101,6 +107,7 @@ class Sensebox extends utils.Adapter {
     try {
       if (this.nextQuery)
         this.clearTimeout(this.nextQuery);
+      this.nextQuery = void 0;
       callback();
     } catch (e) {
       callback();

@@ -56,16 +56,26 @@ class Sensebox extends utils.Adapter {
 				headers: { "User-Agent": `ioBroker.sensebox ${this.version}` },
 			}));
 			this.log.debug(`success!`);
-		} catch (e: any) {
-			let message = `Error querying box ${boxId}. ${e.message}`;
-			if (
-				e.response &&
-				isObject(e.response.data) &&
-				typeof e.response.data.message === "string"
-			) {
-				message += `: ${e.response.data.message}`;
+		} catch (e) {
+			let message = `Error querying box ${boxId}. ${
+				(e as Error).message
+			}`;
+			let level: ioBroker.LogLevel = "error";
+			if (axios.isAxiosError(e) && e.response) {
+				if (
+					isObject(e.response.data) &&
+					typeof e.response.data.message === "string"
+				) {
+					message += `: ${e.response.data.message}`;
+				}
+
+				if (e.response.status >= 500) {
+					// This is nothing the user messed up
+					level = "warn";
+				}
 			}
-			this.log.error(message);
+
+			this.log[level](message);
 			return;
 		}
 
@@ -114,6 +124,7 @@ class Sensebox extends utils.Adapter {
 	private onUnload(callback: () => void): void {
 		try {
 			if (this.nextQuery) this.clearTimeout(this.nextQuery);
+			this.nextQuery = undefined;
 			callback();
 		} catch (e) {
 			callback();
