@@ -63,6 +63,7 @@
 		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.sensebox/master/admin/sensebox.svg?sanitize=true",
 		"readme": "https://github.com/AlCalzone/ioBroker.sensebox/blob/master/README.md",
 		"loglevel": "info",
+		"tier": 2,
 		"mode": "daemon",
 		"type": "weather",
 		"compact": true,
