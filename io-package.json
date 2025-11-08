@@ -55,7 +55,10 @@
 		},
 		"authors": ["AlCalzone <d.griesel@gmx.net>"],
 		"keywords": ["senseBox", "openSenseMap", "Luftdaten", "Sensor"],
-		"license": "MIT",
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",
 		"icon": "sensebox.svg",
