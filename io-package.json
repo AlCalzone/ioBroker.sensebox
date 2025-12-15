@@ -57,7 +57,6 @@
 		"keywords": ["senseBox", "openSenseMap", "Luftdaten", "Sensor"],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
 		"icon": "sensebox.svg",
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.sensebox/master/admin/sensebox.svg?sanitize=true",
