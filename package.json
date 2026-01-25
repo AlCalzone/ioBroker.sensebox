@@ -9,6 +9,7 @@
   "homepage": "https://github.com/AlCalzone/ioBroker.sensebox",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "senseBox",
     "openSenseMap",
     "Luftdaten",
