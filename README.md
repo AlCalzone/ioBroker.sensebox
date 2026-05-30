@@ -21,6 +21,10 @@ Import sensor data from openSenseMap.org
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 0.0.2 (2022-08-22)
 
 -   fixed warning about elapsed timers on older js-controller versions
